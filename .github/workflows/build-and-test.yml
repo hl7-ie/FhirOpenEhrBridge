@@ -1,0 +1,68 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  DOTNET_NOLOGO: 'true'
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore FhirOpenEhrBridge.sln
+
+      - name: Build
+        run: dotnet build FhirOpenEhrBridge.sln --configuration Release --no-restore
+
+      - name: Test (with coverage)
+        run: >-
+          dotnet test FhirOpenEhrBridge.sln
+          --configuration Release
+          --no-build
+          --verbosity normal
+          --logger "trx;LogFileName=test-results.trx"
+          --collect:"XPlat Code Coverage"
+          --results-directory ./TestResults
+
+      - name: Generate coverage report
+        if: always()
+        run: |
+          dotnet tool install --global dotnet-reportgenerator-globaltool
+          reportgenerator \
+            -reports:"./TestResults/**/coverage.cobertura.xml" \
+            -targetdir:"./TestResults/coverage-report" \
+            -reporttypes:"HtmlInline;Cobertura;MarkdownSummaryGithub"
+
+      - name: Publish coverage summary
+        if: always()
+        run: cat ./TestResults/coverage-report/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY" || true
+
+      - name: Upload test & coverage artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-and-coverage
+          path: ./TestResults
+          retention-days: 14

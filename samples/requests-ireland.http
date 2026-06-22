@@ -1,0 +1,77 @@
+### FHIR-OpenEHR-Bridge — Ireland & cross-border sample requests
+### Start the API:  dotnet run --project src/FhirOpenEhrBridge.Api
+### Context & disclaimers: docs/IRELAND-CROSSBORDER.md
+
+@host = http://localhost:5199
+
+### 1) Domestic — Irish patient with IHI  (FHIR -> openEHR)
+POST {{host}}/api/translate/fhir-to-openehr
+Content-Type: application/fhir+json
+
+{
+  "resourceType": "Patient",
+  "id": "ie-ihi-001",
+  "identifier": [
+    { "use": "official", "system": "http://example.org/ie/individual-health-identifier", "value": "6253789", "type": { "text": "IHI" } }
+  ],
+  "name": [ { "use": "official", "family": "Ó Briain", "given": ["Saoirse"] } ],
+  "gender": "female",
+  "birthDate": "1992-03-08",
+  "address": [ { "use": "home", "line": ["12 Pembroke Road", "Ballsbridge"], "city": "Dublin", "postalCode": "D04 X2P3", "country": "IE" } ]
+}
+
+### 2) All-island — RoI <-> Northern Ireland, dual identifiers (FHIR -> openEHR)
+POST {{host}}/api/translate/fhir-to-openehr
+Content-Type: application/fhir+json
+
+{
+  "resourceType": "Patient",
+  "id": "ie-xb-ni-002",
+  "identifier": [
+    { "use": "official", "system": "http://example.org/ie/individual-health-identifier", "value": "6589123", "type": { "text": "IHI" } },
+    { "use": "official", "system": "https://fhir.nhs.uk/Id/nhs-number", "value": "9434765919", "type": { "text": "NHS" } }
+  ],
+  "name": [ { "use": "official", "family": "McGuinness", "given": ["Conor"] } ],
+  "gender": "male",
+  "birthDate": "1978-11-21",
+  "address": [ { "use": "home", "line": ["5 Strand Road"], "city": "Derry", "postalCode": "BT48 7AB", "country": "GB" } ]
+}
+
+### 3) All-island — same patient, openEHR -> FHIR (both identifiers preserved)
+POST {{host}}/api/translate/openehr-to-fhir
+Content-Type: application/json
+
+{
+  "archetypeNodeId": "openEHR-EHR-COMPOSITION.demographics.v1",
+  "territory": "IE",
+  "ehrStatus": { "subjectId": "ie-xb-ni-002", "subjectNamespace": "IHI" },
+  "demographics": {
+    "familyName": "McGuinness",
+    "givenName": "Conor",
+    "gender": "male",
+    "birthDate": "1978-11-21",
+    "identifiers": [
+      { "id": "6589123", "issuer": "http://example.org/ie/individual-health-identifier", "type": "IHI" },
+      { "id": "9434765919", "issuer": "https://fhir.nhs.uk/Id/nhs-number", "type": "NHS" }
+    ],
+    "address": { "line": "5 Strand Road", "city": "Derry", "postalCode": "BT48 7AB", "country": "GB" }
+  }
+}
+
+### 4) EU cross-border — MyHealth@EU / IPS subject (FHIR -> openEHR)
+POST {{host}}/api/translate/fhir-to-openehr
+Content-Type: application/fhir+json
+
+{
+  "resourceType": "Patient",
+  "id": "ie-ips-eu-003",
+  "meta": { "profile": ["http://hl7.org/fhir/uv/ips/StructureDefinition/Patient-uv-ips"] },
+  "identifier": [
+    { "use": "official", "system": "http://example.org/ie/individual-health-identifier", "value": "6701456", "type": { "text": "IHI" } },
+    { "use": "secondary", "system": "http://example.org/ie/pps-number", "value": "1234567T", "type": { "text": "PPSN" } }
+  ],
+  "name": [ { "use": "official", "family": "Nowak", "given": ["Aleksandra"] } ],
+  "gender": "female",
+  "birthDate": "1985-07-14",
+  "address": [ { "use": "home", "line": ["8 Eyre Square"], "city": "Galway", "postalCode": "H91 RX9F", "country": "IE" } ]
+}

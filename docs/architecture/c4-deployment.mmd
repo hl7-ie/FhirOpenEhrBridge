@@ -1,0 +1,35 @@
+C4Deployment
+    title Deployment diagram for FHIR-OpenEHR-Bridge (Kubernetes)
+
+    Deployment_Node(client, "Client Network", "") {
+        Container(app, "Client Application", "Any FHIR/openEHR consumer")
+    }
+
+    Deployment_Node(k8s, "Kubernetes Cluster", "") {
+        Deployment_Node(ingressNode, "Ingress Controller", "NGINX / cloud LB") {
+            Container(ingress, "Ingress", "TLS termination & routing")
+        }
+        Deployment_Node(ns, "Namespace: fhir-openehr-bridge", "") {
+            Deployment_Node(pods, "Deployment (replicas, HPA)", "") {
+                Container(api, "bridge-api", "ASP.NET Core container (ghcr.io image)")
+            }
+            Container(config, "ConfigMap / Secret", "FhirServer & OpenEhrCdr settings")
+        }
+        Deployment_Node(argo, "argocd Namespace", "") {
+            Container(argocd, "Argo CD", "GitOps reconciliation from this repo")
+        }
+    }
+
+    Deployment_Node(ext, "External Systems", "") {
+        Container(fhir, "FHIR Server", "HL7 FHIR repository")
+        Container(cdr, "openEHR CDR", "EHRbase / openEHR repository")
+    }
+
+    Rel(app, ingress, "HTTPS")
+    Rel(ingress, api, "routes /api/translate")
+    Rel(api, config, "reads configuration")
+    Rel(api, fhir, "FHIR REST")
+    Rel(api, cdr, "openEHR REST")
+    Rel(argocd, pods, "deploys & reconciles")
+
+    UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="1")

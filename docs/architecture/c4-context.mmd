@@ -1,0 +1,15 @@
+C4Context
+    title System Context diagram for FHIR-OpenEHR-Bridge
+
+    Person(client, "Client Application", "An EHR or clinical application that needs to exchange data across FHIR and openEHR systems")
+
+    System(bridge, "FHIR-OpenEHR-Bridge", "Bidirectional mapping and translation engine between HL7 FHIR (R4/R5) and openEHR (RM/AQL) payloads")
+
+    System_Ext(fhirServer, "FHIR Server", "HL7 FHIR R4/R5 repository (e.g. HAPI FHIR, Firely Server, Azure Health Data Services)")
+    System_Ext(cdr, "openEHR CDR", "openEHR Clinical Data Repository exposing the openEHR REST API and AQL (e.g. EHRbase)")
+
+    Rel(client, bridge, "Submits payloads to translate", "HTTPS / REST")
+    Rel(bridge, fhirServer, "Reads & writes FHIR resources", "FHIR REST")
+    Rel(bridge, cdr, "Reads & writes compositions, runs AQL", "openEHR REST")
+
+    UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")

@@ -1,0 +1,70 @@
+### FHIR-OpenEHR-Bridge — sample API requests
+### Use with the VS Code "REST Client" extension or JetBrains Rider's HTTP client.
+### Start the API first:  dotnet run --project src/FhirOpenEhrBridge.Api
+### or the full stack:    docker compose up --build   (then set @host = http://localhost:8088)
+
+@host = http://localhost:5199
+
+### Health check
+GET {{host}}/health
+Accept: application/json
+
+### FHIR -> openEHR : full Patient
+POST {{host}}/api/translate/fhir-to-openehr
+Content-Type: application/fhir+json
+
+{
+  "resourceType": "Patient",
+  "id": "patient-full-001",
+  "identifier": [
+    { "system": "https://fhir.nhs.uk/Id/nhs-number", "value": "9876543210", "type": { "text": "NHS" } }
+  ],
+  "name": [ { "use": "official", "family": "Smith", "given": ["John", "Robert"] } ],
+  "gender": "male",
+  "birthDate": "1980-05-15",
+  "address": [ { "line": ["10 Downing Street"], "city": "London", "postalCode": "SW1A 2AA", "country": "GB" } ]
+}
+
+### FHIR -> openEHR : minimal Patient
+POST {{host}}/api/translate/fhir-to-openehr
+Content-Type: application/fhir+json
+
+{
+  "resourceType": "Patient",
+  "id": "patient-minimal-002",
+  "name": [ { "family": "Doe", "given": ["Jane"] } ],
+  "gender": "female"
+}
+
+### FHIR -> openEHR : wrong resource type (expect HTTP 400)
+POST {{host}}/api/translate/fhir-to-openehr
+Content-Type: application/json
+
+{ "resourceType": "Observation", "status": "final", "code": { "text": "Heart rate" } }
+
+### openEHR -> FHIR : full demographics composition
+POST {{host}}/api/translate/openehr-to-fhir
+Content-Type: application/json
+
+{
+  "archetypeNodeId": "openEHR-EHR-COMPOSITION.demographics.v1",
+  "ehrStatus": { "subjectId": "9999-0001" },
+  "demographics": {
+    "familyName": "Andersson",
+    "givenName": "Erik",
+    "gender": "male",
+    "birthDate": "1975-11-30",
+    "identifiers": [ { "id": "1234567890", "issuer": "https://fhir.nhs.uk/Id/nhs-number", "type": "NHS" } ],
+    "address": { "line": "221B Baker Street", "city": "London", "postalCode": "NW1 6XE", "country": "GB" }
+  }
+}
+
+### openEHR -> FHIR : missing demographics (expect HTTP 400)
+POST {{host}}/api/translate/openehr-to-fhir
+Content-Type: application/json
+
+{
+  "archetypeNodeId": "openEHR-EHR-COMPOSITION.demographics.v1",
+  "ehrStatus": { "subjectId": "9999-0003" },
+  "demographics": null
+}

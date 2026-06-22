@@ -1,0 +1,94 @@
+# Local end-to-end stack for the FHIR-OpenEHR-Bridge.
+#
+#   docker compose up --build
+#
+# Services:
+#   bridge-api  -> the API under test            http://localhost:8088
+#   hapi-fhir   -> a real HL7 FHIR server         http://localhost:8082/fhir
+#   ehrbase     -> a real openEHR CDR             http://localhost:8080/ehrbase
+#   ehrdb       -> Postgres backing EHRbase       localhost:5432
+#
+# The bridge API is wired to talk to hapi-fhir and ehrbase over the compose
+# network using their service names.
+
+services:
+  bridge-api:
+    build:
+      context: .
+      dockerfile: src/FhirOpenEhrBridge.Api/Dockerfile
+    image: fhir-openehr-bridge:local
+    container_name: bridge-api
+    depends_on:
+      - hapi-fhir
+      - ehrbase
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: "8080"
+      FhirServer__BaseUrl: "http://hapi-fhir:8080/fhir/"
+      FhirServer__TimeoutSeconds: "30"
+      OpenEhrCdr__BaseUrl: "http://ehrbase:8080/ehrbase/rest/openehr/v1/"
+      OpenEhrCdr__Username: "ehrbase-user"
+      OpenEhrCdr__Password: "SuperSecretPassword"
+      OpenEhrCdr__TimeoutSeconds: "30"
+    ports:
+      - "8088:8080"
+    restart: unless-stopped
+
+  hapi-fhir:
+    image: hapiproject/hapi:v7.4.0
+    container_name: hapi-fhir
+    environment:
+      hapi.fhir.fhir_version: R4
+      hapi.fhir.default_encoding: json
+    ports:
+      - "8082:8080"
+    restart: unless-stopped
+
+  ehrbase:
+    image: ehrbase/ehrbase:2.15.0
+    container_name: ehrbase
+    depends_on:
+      ehrdb:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://ehrdb:5432/ehrbase
+      DB_USER: ehrbase
+      DB_PASS: ehrbase
+      DB_USER_ADMIN: ehrbase_restricted
+      DB_PASS_ADMIN: ehrbase_restricted
+      SERVER_NODENAME: local.ehrbase.org
+      SPRING_PROFILES_ACTIVE: docker
+      SECURITY_AUTHTYPE: BASIC
+      SECURITY_AUTHUSER: ehrbase-user
+      SECURITY_AUTHPASSWORD: SuperSecretPassword
+      SECURITY_AUTHADMINUSER: ehrbase-admin
+      SECURITY_AUTHADMINPASSWORD: EvenMoreSecretPassword
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  ehrdb:
+    image: ehrbase/ehrbase-postgres:16.2
+    container_name: ehrdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      EHRBASE_USER_ADMIN: ehrbase_restricted
+      EHRBASE_PASSWORD_ADMIN: ehrbase_restricted
+      EHRBASE_USER: ehrbase
+      EHRBASE_PASSWORD: ehrbase
+    volumes:
+      - ehrdb-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+
+volumes:
+  ehrdb-data:

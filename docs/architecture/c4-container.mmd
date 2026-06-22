@@ -1,0 +1,23 @@
+C4Container
+    title Container diagram for FHIR-OpenEHR-Bridge
+
+    Person(client, "Client Application", "Issues translation requests")
+    System_Ext(fhirServer, "FHIR Server", "HL7 FHIR R4/R5 repository")
+    System_Ext(cdr, "openEHR CDR", "openEHR Clinical Data Repository")
+
+    Container_Boundary(bridge, "FHIR-OpenEHR-Bridge") {
+        Container(api, "API Gateway", "ASP.NET Core Web API (.NET 8)", "Exposes the REST translation endpoints and orchestrates the pipeline")
+        Container(mapping, "Mapping Engine", ".NET 8 class library + Firely SDK", "Bidirectional FHIR <-> openEHR mappers")
+        Container(validation, "Validation Engine", ".NET 8 class library", "Validates inbound payloads before mapping")
+        Container(cache, "Cache", "In-memory / distributed cache", "Caches archetypes, profiles and terminology lookups")
+    }
+
+    Rel(client, api, "Calls translation endpoints", "HTTPS / JSON")
+    Rel(api, validation, "Validates payloads", "in-process")
+    Rel(api, mapping, "Delegates translation", "in-process")
+    Rel(mapping, validation, "Re-uses validators", "in-process")
+    Rel(mapping, cache, "Reads & writes lookups", "in-process")
+    Rel(api, fhirServer, "Fetches & stores FHIR resources", "FHIR REST")
+    Rel(api, cdr, "Fetches & stores compositions", "openEHR REST")
+
+    UpdateLayoutConfig($c4ShapeInRow="2", $c4BoundaryInRow="1")

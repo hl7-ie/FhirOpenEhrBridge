@@ -1,0 +1,28 @@
+{
+  "archetypeNodeId": "openEHR-EHR-COMPOSITION.demographics.v1",
+  "name": "Demographics",
+  "language": "en",
+  "territory": "IE",
+  "category": "persistent",
+  "ehrStatus": {
+    "subjectId": "ie-ihi-001",
+    "subjectNamespace": "IHI",
+    "isQueryable": true,
+    "isModifiable": true
+  },
+  "demographics": {
+    "familyName": "Ó Briain",
+    "givenName": "Saoirse",
+    "gender": "female",
+    "birthDate": "1992-03-08",
+    "identifiers": [
+      { "id": "6253789", "issuer": "http://example.org/ie/individual-health-identifier", "type": "IHI" }
+    ],
+    "address": {
+      "line": "12 Pembroke Road",
+      "city": "Dublin",
+      "postalCode": "D04 X2P3",
+      "country": "IE"
+    }
+  }
+}

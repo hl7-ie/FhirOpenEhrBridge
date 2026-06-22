@@ -1,0 +1,7 @@
+{
+  "archetypeNodeId": "openEHR-EHR-COMPOSITION.demographics.v1",
+  "ehrStatus": {
+    "subjectId": "9999-0003"
+  },
+  "demographics": null
+}

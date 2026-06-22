@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: fhir-openehr-bridge
+
+resources:
+  - ../../base
+
+replicas:
+  - name: bridge-api
+    count: 3
+
+images:
+  - name: ghcr.io/hl7-ie/fhiropenehrbridge
+    newTag: latest
+
+patches:
+  - path: patch-ingress.yaml

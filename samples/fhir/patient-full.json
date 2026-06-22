@@ -1,0 +1,29 @@
+{
+  "resourceType": "Patient",
+  "id": "patient-full-001",
+  "identifier": [
+    {
+      "system": "https://fhir.nhs.uk/Id/nhs-number",
+      "value": "9876543210",
+      "type": { "text": "NHS" }
+    },
+    {
+      "system": "https://hospital.example.org/mrn",
+      "value": "MRN-44821",
+      "type": { "text": "MRN" }
+    }
+  ],
+  "name": [
+    { "use": "official", "family": "Smith", "given": ["John", "Robert"] }
+  ],
+  "gender": "male",
+  "birthDate": "1980-05-15",
+  "address": [
+    {
+      "line": ["10 Downing Street"],
+      "city": "London",
+      "postalCode": "SW1A 2AA",
+      "country": "GB"
+    }
+  ]
+}

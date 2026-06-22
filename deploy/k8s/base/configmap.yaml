@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bridge-api-config
+  labels:
+    app.kubernetes.io/name: bridge-api
+data:
+  # Non-secret configuration surfaced to the API as ASP.NET Core environment
+  # variables (double underscore = configuration section nesting).
+  ASPNETCORE_ENVIRONMENT: "Production"
+  ASPNETCORE_HTTP_PORTS: "8080"
+  # Short service names resolve within the same namespace; override per-overlay
+  # to point at the real FHIR server / openEHR CDR for that environment.
+  FhirServer__BaseUrl: "http://hapi-fhir:8080/fhir/"
+  FhirServer__TimeoutSeconds: "30"
+  OpenEhrCdr__BaseUrl: "http://ehrbase:8080/ehrbase/rest/openehr/v1/"
+  OpenEhrCdr__TimeoutSeconds: "30"

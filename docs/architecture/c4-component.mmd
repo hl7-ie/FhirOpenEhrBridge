@@ -1,0 +1,34 @@
+C4Component
+    title Component diagram for the FHIR-OpenEHR-Bridge API container
+
+    Person(client, "Client Application", "Issues translation requests")
+    System_Ext(firely, "Firely .NET SDK", "FHIR parsing & serialization (Hl7.Fhir.R4)")
+    System_Ext(fhirServer, "FHIR Server", "HL7 FHIR repository")
+    System_Ext(cdr, "openEHR CDR", "openEHR repository")
+
+    Container_Boundary(api, "FHIR-OpenEHR-Bridge API") {
+        Component(controller, "TranslationController", "ASP.NET Core Controller", "Exposes the /api/translate endpoints and reads/writes payloads")
+        Component(service, "TranslationService", "Application Service", "Selects a mapper by resourceType / archetypeNodeId and runs the pipeline")
+
+        Component(f2oMapper, "PatientToDemographicsMapper", "Mapper : FhirToOpenEhrMapperBase", "FHIR Patient -> openEHR demographics composition")
+        Component(o2fMapper, "DemographicsToPatientMapper", "Mapper : OpenEhrToFhirMapperBase", "openEHR composition -> FHIR Bundle")
+
+        Component(fhirValidator, "FhirResourceValidator", "IPayloadValidator<string>", "Validates inbound FHIR JSON & resource type")
+        Component(openEhrValidator, "OpenEhrCompositionValidator", "IPayloadValidator<OpenEhrComposition>", "Validates inbound composition structure")
+
+        Component(fhirClient, "FhirServerClient", "IFhirServerClient adapter", "Typed HttpClient to a FHIR server")
+        Component(cdrClient, "OpenEhrCdrClient", "IOpenEhrCdrClient adapter", "Typed HttpClient to an openEHR CDR")
+    }
+
+    Rel(client, controller, "Calls", "HTTPS/JSON")
+    Rel(controller, service, "Delegates translation")
+    Rel(service, f2oMapper, "Selects & invokes")
+    Rel(service, o2fMapper, "Selects & invokes")
+    Rel(f2oMapper, fhirValidator, "Validates with")
+    Rel(o2fMapper, openEhrValidator, "Validates with")
+    Rel(f2oMapper, firely, "Parses FHIR with")
+    Rel(o2fMapper, firely, "Serializes FHIR with")
+    Rel(fhirClient, fhirServer, "Reads/writes", "FHIR REST")
+    Rel(cdrClient, cdr, "Reads/writes", "openEHR REST")
+
+    UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")

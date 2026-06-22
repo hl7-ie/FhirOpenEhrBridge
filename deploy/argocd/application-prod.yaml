@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fhir-openehr-bridge-prod
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: fhir-openehr-bridge
+  source:
+    repoURL: https://github.com/hl7-ie/FhirOpenEhrBridge.git
+    targetRevision: main
+    path: deploy/k8s/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: fhir-openehr-bridge
+  syncPolicy:
+    # Production uses automated sync with self-heal but NO auto-prune, so an
+    # accidental manifest deletion never cascades to removing live workloads.
+    automated:
+      prune: false
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 15s
+        factor: 2
+        maxDuration: 5m

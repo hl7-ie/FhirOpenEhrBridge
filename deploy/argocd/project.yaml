@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: fhir-openehr-bridge
+  namespace: argocd
+spec:
+  description: FHIR-OpenEHR-Bridge GitOps project
+  sourceRepos:
+    - https://github.com/hl7-ie/FhirOpenEhrBridge.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: fhir-openehr-bridge
+    - server: https://kubernetes.default.svc
+      namespace: fhir-openehr-bridge-dev
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

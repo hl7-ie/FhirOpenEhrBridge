@@ -56,10 +56,13 @@ inward only:
 | `FhirOpenEhrBridge.Infrastructure` | Adapters: typed `HttpClient`s for external FHIR servers and openEHR CDRs. | `Microsoft.Extensions.Http` |
 | `FhirOpenEhrBridge.Api` | REST endpoints, Swagger, DI composition root. | ASP.NET Core |
 
-Architecture diagrams (C4 model) live in [`docs/architecture`](docs/architecture):
+Architecture diagrams (C4 model + sequences) live in [`docs/architecture`](docs/architecture):
 
 - [`c4-context.mmd`](docs/architecture/c4-context.mmd) — system context (Mermaid C4).
 - [`c4-container.mmd`](docs/architecture/c4-container.mmd) — container view (Mermaid C4).
+- [`c4-component.mmd`](docs/architecture/c4-component.mmd) — component view of the API (Mermaid C4).
+- [`c4-deployment.mmd`](docs/architecture/c4-deployment.mmd) — Kubernetes deployment view (Mermaid C4).
+- [`sequence-fhir-to-openehr.mmd`](docs/architecture/sequence-fhir-to-openehr.mmd) / [`sequence-openehr-to-fhir.mmd`](docs/architecture/sequence-openehr-to-fhir.mmd) — translation sequence diagrams.
 - [`architecture-diagrams.drawio`](docs/architecture/architecture-diagrams.drawio) — editable Draw.io source.
 
 ## Tech stack
@@ -100,10 +103,22 @@ Swagger UI is served at `https://localhost:<port>/swagger` in Development.
 
 ### Run with Docker
 
+Single container:
+
 ```bash
 docker build -t fhir-openehr-bridge -f src/FhirOpenEhrBridge.Api/Dockerfile .
-docker run -p 8080:8080 fhir-openehr-bridge
+docker run -p 8088:8080 fhir-openehr-bridge
 ```
+
+Full local stack (API + a real HAPI FHIR server + EHRbase openEHR CDR + Postgres):
+
+```bash
+docker compose up --build
+./scripts/smoke-test.sh        # verify all endpoints once it is up
+```
+
+See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for the Kubernetes (Kustomize) and
+Argo CD (GitOps) deployment paths.
 
 ## API
 
@@ -164,14 +179,27 @@ base classes) and registering it in `AddBridgeApplication`.
   the translation behaviour end-to-end:
   - `Features/FhirToOpenEhrTranslation.feature`
   - `Features/OpenEhrToFhirTranslation.feature`
+- **Integration tests** (`tests/FhirOpenEhrBridge.IntegrationTests`) — boot the
+  real ASP.NET Core pipeline in-memory with `WebApplicationFactory<Program>` and
+  exercise the HTTP endpoints.
 
 ## CI/CD
 
 GitHub Actions workflows in [`.github/workflows`](.github/workflows):
 
 - **build-and-test.yml** — restore, build, test, and publish a code-coverage report on every push/PR to `main`.
+- **codeql.yml** — CodeQL security/quality analysis for C# on push/PR and weekly.
 - **publish-nuget.yml** — on a `v*.*.*` tag, pack `Domain` + `Application` and push to GitHub Packages (and NuGet.org if `NUGET_API_KEY` is set).
 - **docker-publish.yml** — build the API image and push it to GitHub Container Registry (`ghcr.io`).
+- **cd-gitops.yml** — on a release tag, bump the production Kustomize overlay's image tag and commit it back to `main` for Argo CD to reconcile.
+
+## Deployment
+
+- **Local stack:** `docker compose up --build` (see [Run with Docker](#run-with-docker)).
+- **Kubernetes:** Kustomize base + `dev`/`prod` overlays under [`deploy/k8s`](deploy/k8s).
+- **GitOps:** Argo CD `AppProject` + per-environment `Application`s under [`deploy/argocd`](deploy/argocd).
+
+Full instructions are in [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
 
 ## Contributing
 

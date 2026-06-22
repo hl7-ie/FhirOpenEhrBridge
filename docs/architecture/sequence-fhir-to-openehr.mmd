@@ -1,0 +1,30 @@
+sequenceDiagram
+    autonumber
+    actor Client
+    participant Ctl as TranslationController
+    participant Svc as TranslationService
+    participant Val as FhirResourceValidator
+    participant Map as PatientToDemographicsMapper
+    participant Firely as Firely SDK
+
+    Client->>Ctl: POST /api/translate/fhir-to-openehr (FHIR JSON)
+    Ctl->>Svc: FhirToOpenEhr(fhirJson)
+    Svc->>Firely: Parse resourceType
+    Firely-->>Svc: "Patient"
+    Svc->>Map: Map(fhirJson)  %% selected by resourceType
+    Map->>Val: Validate(fhirJson)
+    Val->>Firely: Parse<Resource>
+    Firely-->>Val: Patient resource
+    Val-->>Map: ValidationResult (IsValid)
+    alt validation has errors
+        Map-->>Svc: MappingResult.Fail(issues)
+        Svc-->>Ctl: failed result
+        Ctl-->>Client: 400 Bad Request (issues)
+    else valid
+        Map->>Firely: Parse<Patient>
+        Firely-->>Map: Patient POCO
+        Map->>Map: Build OpenEhrComposition (EHR_STATUS + demographics)
+        Map-->>Svc: MappingResult.Ok(composition)
+        Svc-->>Ctl: success result
+        Ctl-->>Client: 200 OK (composition + warnings)
+    end

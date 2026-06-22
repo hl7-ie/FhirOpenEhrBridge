@@ -91,7 +91,14 @@ public sealed class TranslationService : ITranslationService
                 $"Mapper for '{archetype}' does not accept an openEHR composition.");
         }
 
-        _logger.LogInformation("Translating openEHR composition {Archetype} to FHIR.", archetype);
+        _logger.LogInformation(
+            "Translating openEHR composition {Archetype} to FHIR.",
+            SanitizeForLog(archetype));
         return typedMapper.Map(composition);
+    }
+
+    private static string SanitizeForLog(string? value)
+    {
+        return value?.ReplaceLineEndings(" ") ?? string.Empty;
     }
 }

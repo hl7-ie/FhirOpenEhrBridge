@@ -1,0 +1,28 @@
+<Project>
+
+  <!-- Shared build settings applied to every project in the solution. -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- 1591: missing XML doc comment. We document public APIs but not every member. -->
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <!-- Common NuGet package metadata (used by the packable libraries). -->
+  <PropertyGroup>
+    <Authors>FHIR-OpenEHR-Bridge Contributors</Authors>
+    <Company>FHIR-OpenEHR-Bridge</Company>
+    <Product>FHIR-OpenEHR-Bridge</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/hl7-ie/FhirOpenEhrBridge</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/hl7-ie/FhirOpenEhrBridge</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>fhir;openehr;hl7;interoperability;healthcare;mapping</PackageTags>
+    <Copyright>Copyright (c) 2026 FHIR-OpenEHR-Bridge Contributors</Copyright>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+
+</Project>

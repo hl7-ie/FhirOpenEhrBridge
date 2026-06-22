@@ -55,3 +55,24 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Code coverage
+coverage/
+*.coverage
+*.cobertura.xml
+*.opencover.xml
+
+# Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userprefs
+
+# Reqnroll / SpecFlow generated artefacts
+*.feature.cs
+
+# OS
+.DS_Store
+Thumbs.db

@@ -5,18 +5,26 @@ healthcare scenarios. They live under [`samples/`](../samples) and run through
 the standard pipeline — the engine maps **multiple national identifiers** in a
 single record, which is exactly what cross-border interoperability needs.
 
-> **Disclaimer:** the identifier `system` URIs below (e.g.
-> `https://fhir.hl7.ie/Id/...`) are *illustrative* placeholders for these
-> samples. Confirm the canonical systems against the HL7 Ireland FHIR IG and HSE
-> before any real use. Patient details and identifier values are fictional.
+> **⚠️ Identifier systems are placeholders — do not treat them as canonical.**
+> The Irish identifier `system` URIs in these samples use the RFC 2606 reserved
+> documentation domain `http://example.org/ie/...`. They are deliberately
+> non-authoritative.
+>
+> **Do NOT use `hl7.ie` or `fhir.ie`.** Those domains are *not* operated by HL7
+> International, its Irish affiliate, or the HSE; they have been used by third
+> parties for misleading/illegitimate "implementations". The canonical Irish
+> identifier systems must be obtained from the official HSE / Department of
+> Health publications before any real use.
+>
+> All patient details and identifier values here are fictional.
 
 ## Identifier systems used
 
-| Identifier | Who | `system` (illustrative) | Notes |
+| Identifier | Who | `system` used in samples (placeholder) | Notes |
 | --- | --- | --- | --- |
-| **IHI** — Individual Health Identifier | Republic of Ireland (HSE) | `https://fhir.hl7.ie/Id/individual-health-identifier` | National patient identifier; OID `2.16.372.1.1`. |
-| **PPSN** — Personal Public Service Number | Republic of Ireland (DSP) | `https://fhir.hl7.ie/Id/pps-number` | Social identifier, sometimes used as a secondary reference. |
-| **NHS number** | Northern Ireland / UK | `https://fhir.nhs.uk/Id/nhs-number` | 10-digit; used for all-island care. |
+| **IHI** — Individual Health Identifier | Republic of Ireland (HSE) | `http://example.org/ie/individual-health-identifier` | National patient identifier (Health Identifiers Act 2014). Use the official HSE-published system in production. |
+| **PPSN** — Personal Public Service Number | Republic of Ireland | `http://example.org/ie/pps-number` | Social identifier, occasionally used as a secondary reference. |
+| **NHS number** | Northern Ireland / UK | `https://fhir.nhs.uk/Id/nhs-number` | 10-digit; canonical UK system, used for all-island care. |
 
 Irish addresses use **Eircode** postal codes (e.g. `D04 X2P3`, `H91 RX9F`) and
 country `IE`; Northern Ireland addresses use country `GB`.

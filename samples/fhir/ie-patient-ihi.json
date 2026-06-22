@@ -1,13 +1,10 @@
 {
   "resourceType": "Patient",
   "id": "ie-ihi-001",
-  "meta": {
-    "profile": ["https://fhir.hl7.ie/StructureDefinition/ie-core-patient"]
-  },
   "identifier": [
     {
       "use": "official",
-      "system": "https://fhir.hl7.ie/Id/individual-health-identifier",
+      "system": "http://example.org/ie/individual-health-identifier",
       "value": "6253789",
       "type": { "text": "IHI" }
     }

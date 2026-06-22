@@ -16,7 +16,7 @@
     "gender": "female",
     "birthDate": "1992-03-08",
     "identifiers": [
-      { "id": "6253789", "issuer": "https://fhir.hl7.ie/Id/individual-health-identifier", "type": "IHI" }
+      { "id": "6253789", "issuer": "http://example.org/ie/individual-health-identifier", "type": "IHI" }
     ],
     "address": {
       "line": "12 Pembroke Road",

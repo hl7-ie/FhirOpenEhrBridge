@@ -4,7 +4,7 @@
   "identifier": [
     {
       "use": "official",
-      "system": "https://fhir.hl7.ie/Id/individual-health-identifier",
+      "system": "http://example.org/ie/individual-health-identifier",
       "value": "6589123",
       "type": { "text": "IHI" }
     },

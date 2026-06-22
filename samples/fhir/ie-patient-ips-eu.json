@@ -7,13 +7,13 @@
   "identifier": [
     {
       "use": "official",
-      "system": "https://fhir.hl7.ie/Id/individual-health-identifier",
+      "system": "http://example.org/ie/individual-health-identifier",
       "value": "6701456",
       "type": { "text": "IHI" }
     },
     {
       "use": "secondary",
-      "system": "https://fhir.hl7.ie/Id/pps-number",
+      "system": "http://example.org/ie/pps-number",
       "value": "1234567T",
       "type": { "text": "PPSN" }
     }

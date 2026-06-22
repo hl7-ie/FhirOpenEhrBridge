@@ -1,0 +1,29 @@
+{
+  "archetypeNodeId": "openEHR-EHR-COMPOSITION.demographics.v1",
+  "name": "Demographics",
+  "language": "en",
+  "territory": "IE",
+  "category": "persistent",
+  "ehrStatus": {
+    "subjectId": "ie-xb-ni-002",
+    "subjectNamespace": "IHI",
+    "isQueryable": true,
+    "isModifiable": true
+  },
+  "demographics": {
+    "familyName": "McGuinness",
+    "givenName": "Conor",
+    "gender": "male",
+    "birthDate": "1978-11-21",
+    "identifiers": [
+      { "id": "6589123", "issuer": "https://fhir.hl7.ie/Id/individual-health-identifier", "type": "IHI" },
+      { "id": "9434765919", "issuer": "https://fhir.nhs.uk/Id/nhs-number", "type": "NHS" }
+    ],
+    "address": {
+      "line": "5 Strand Road",
+      "city": "Derry",
+      "postalCode": "BT48 7AB",
+      "country": "GB"
+    }
+  }
+}

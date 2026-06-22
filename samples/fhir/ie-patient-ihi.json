@@ -1,0 +1,30 @@
+{
+  "resourceType": "Patient",
+  "id": "ie-ihi-001",
+  "meta": {
+    "profile": ["https://fhir.hl7.ie/StructureDefinition/ie-core-patient"]
+  },
+  "identifier": [
+    {
+      "use": "official",
+      "system": "https://fhir.hl7.ie/Id/individual-health-identifier",
+      "value": "6253789",
+      "type": { "text": "IHI" }
+    }
+  ],
+  "name": [
+    { "use": "official", "family": "Ó Briain", "given": ["Saoirse"] }
+  ],
+  "gender": "female",
+  "birthDate": "1992-03-08",
+  "address": [
+    {
+      "use": "home",
+      "line": ["12 Pembroke Road", "Ballsbridge"],
+      "city": "Dublin",
+      "district": "Co. Dublin",
+      "postalCode": "D04 X2P3",
+      "country": "IE"
+    }
+  ]
+}

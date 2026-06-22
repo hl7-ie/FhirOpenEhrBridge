@@ -10,13 +10,28 @@ samples/
     patient-full.json         #   id, two identifiers, name, gender, dob, address
     patient-minimal.json      #   just name + gender
     observation-invalid.json  #   wrong resource type -> rejected
+    ie-patient-ihi.json            # Ireland: patient with IHI (Eircode, fada in name)
+    ie-patient-crossborder-ni.json # All-island: IHI + NI NHS number
+    ie-patient-ips-eu.json         # EU cross-border: MyHealth@EU / IPS subject
   openehr/                    # example openEHR compositions (inputs for openehr-to-fhir)
     composition-demographics.json  # full demographics
     composition-minimal.json       # name + gender only
     composition-invalid.json       # null demographics -> rejected
+    ie-composition-ihi.json         # Ireland: IHI demographics
+    ie-composition-crossborder.json # All-island: IHI + NI NHS number
   FhirOpenEhrBridge.Demo/     # runnable console demo (uses the Application library directly)
   requests.http               # ready-to-run HTTP requests against the live API
+  requests-ireland.http       # Ireland & cross-border requests
 ```
+
+### Ireland & cross-border examples
+
+The `ie-*` samples demonstrate Irish and cross-border interoperability — the
+Individual Health Identifier (IHI), PPSN, all-island care (Republic of Ireland
+↔ Northern Ireland with dual IHI + NHS identifiers), and EU cross-border via
+MyHealth@EU / the International Patient Summary. They run through the same demo
+and are described in detail in
+[`docs/IRELAND-CROSSBORDER.md`](../docs/IRELAND-CROSSBORDER.md).
 
 ## 1. Console demo (no server needed)
 

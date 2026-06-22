@@ -1,0 +1,32 @@
+{
+  "resourceType": "Patient",
+  "id": "ie-xb-ni-002",
+  "identifier": [
+    {
+      "use": "official",
+      "system": "https://fhir.hl7.ie/Id/individual-health-identifier",
+      "value": "6589123",
+      "type": { "text": "IHI" }
+    },
+    {
+      "use": "official",
+      "system": "https://fhir.nhs.uk/Id/nhs-number",
+      "value": "9434765919",
+      "type": { "text": "NHS" }
+    }
+  ],
+  "name": [
+    { "use": "official", "family": "McGuinness", "given": ["Conor"] }
+  ],
+  "gender": "male",
+  "birthDate": "1978-11-21",
+  "address": [
+    {
+      "use": "home",
+      "line": ["5 Strand Road"],
+      "city": "Derry",
+      "postalCode": "BT48 7AB",
+      "country": "GB"
+    }
+  ]
+}

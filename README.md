@@ -168,6 +168,11 @@ The [`samples/`](samples) folder demonstrates the engine three ways:
 - **`samples/requests.http`** — ready-to-run requests for the VS Code REST Client / Rider against the live API.
 - **Sample payloads** — `samples/fhir/*.json` and `samples/openehr/*.json`, usable with `curl --data @<file>`.
 
+There are also **Ireland & cross-border** examples — Individual Health Identifier
+(IHI), all-island care (Republic of Ireland ↔ Northern Ireland), and EU
+cross-border via MyHealth@EU / IPS. See
+[`docs/IRELAND-CROSSBORDER.md`](docs/IRELAND-CROSSBORDER.md).
+
 See [`samples/README.md`](samples/README.md) for details.
 
 ## How it works

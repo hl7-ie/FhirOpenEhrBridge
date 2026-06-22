@@ -156,6 +156,20 @@ Response (abridged):
 }
 ```
 
+## Samples & demos
+
+The [`samples/`](samples) folder demonstrates the engine three ways:
+
+- **Console demo** — runs every sample payload through the engine in both
+  directions (plus round-trip and rejection paths), no server required:
+  ```bash
+  dotnet run --project samples/FhirOpenEhrBridge.Demo
+  ```
+- **`samples/requests.http`** — ready-to-run requests for the VS Code REST Client / Rider against the live API.
+- **Sample payloads** — `samples/fhir/*.json` and `samples/openehr/*.json`, usable with `curl --data @<file>`.
+
+See [`samples/README.md`](samples/README.md) for details.
+
 ## How it works
 
 Every translation runs a **validate-then-map** pipeline:

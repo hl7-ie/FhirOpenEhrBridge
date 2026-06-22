@@ -1,0 +1,6 @@
+{
+  "resourceType": "Observation",
+  "status": "final",
+  "code": { "text": "Heart rate" },
+  "valueQuantity": { "value": 72, "unit": "beats/minute" }
+}

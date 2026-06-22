@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FhirOpenEhrBridge.UnitTests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FhirOpenEhrBridge.IntegrationTests", "tests\FhirOpenEhrBridge.IntegrationTests\FhirOpenEhrBridge.IntegrationTests.csproj", "{BF82DED0-6FED-4C39-8FF2-5A5F891A431C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5D20AA90-6969-D8BD-9DCD-8634F4692FDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FhirOpenEhrBridge.Demo", "samples\FhirOpenEhrBridge.Demo\FhirOpenEhrBridge.Demo.csproj", "{95F974DD-A1AC-4084-9452-660754E2B86A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +119,18 @@ Global
 		{BF82DED0-6FED-4C39-8FF2-5A5F891A431C}.Release|x64.Build.0 = Release|Any CPU
 		{BF82DED0-6FED-4C39-8FF2-5A5F891A431C}.Release|x86.ActiveCfg = Release|Any CPU
 		{BF82DED0-6FED-4C39-8FF2-5A5F891A431C}.Release|x86.Build.0 = Release|Any CPU
+		{95F974DD-A1AC-4084-9452-660754E2B86A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95F974DD-A1AC-4084-9452-660754E2B86A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95F974DD-A1AC-4084-9452-660754E2B86A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{95F974DD-A1AC-4084-9452-660754E2B86A}.Debug|x64.Build.0 = Debug|Any CPU
+		{95F974DD-A1AC-4084-9452-660754E2B86A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{95F974DD-A1AC-4084-9452-660754E2B86A}.Debug|x86.Build.0 = Debug|Any CPU
+		{95F974DD-A1AC-4084-9452-660754E2B86A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95F974DD-A1AC-4084-9452-660754E2B86A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95F974DD-A1AC-4084-9452-660754E2B86A}.Release|x64.ActiveCfg = Release|Any CPU
+		{95F974DD-A1AC-4084-9452-660754E2B86A}.Release|x64.Build.0 = Release|Any CPU
+		{95F974DD-A1AC-4084-9452-660754E2B86A}.Release|x86.ActiveCfg = Release|Any CPU
+		{95F974DD-A1AC-4084-9452-660754E2B86A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,5 +143,6 @@ Global
 		{22412750-5E20-49CF-A7BF-CFA06B9FD837} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{660A077A-9738-4EDF-8423-5FB7BF6F5679} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{BF82DED0-6FED-4C39-8FF2-5A5F891A431C} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+		{95F974DD-A1AC-4084-9452-660754E2B86A} = {5D20AA90-6969-D8BD-9DCD-8634F4692FDA}
 	EndGlobalSection
 EndGlobal

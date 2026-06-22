@@ -1,0 +1,8 @@
+{
+  "resourceType": "Patient",
+  "id": "patient-minimal-002",
+  "name": [
+    { "family": "Doe", "given": ["Jane"] }
+  ],
+  "gender": "female"
+}

@@ -1,0 +1,28 @@
+{
+  "archetypeNodeId": "openEHR-EHR-COMPOSITION.demographics.v1",
+  "name": "Demographics",
+  "language": "en",
+  "territory": "GB",
+  "category": "persistent",
+  "ehrStatus": {
+    "subjectId": "9999-0001",
+    "subjectNamespace": "DEMOGRAPHIC",
+    "isQueryable": true,
+    "isModifiable": true
+  },
+  "demographics": {
+    "familyName": "Andersson",
+    "givenName": "Erik",
+    "gender": "male",
+    "birthDate": "1975-11-30",
+    "identifiers": [
+      { "id": "1234567890", "issuer": "https://fhir.nhs.uk/Id/nhs-number", "type": "NHS" }
+    ],
+    "address": {
+      "line": "221B Baker Street",
+      "city": "London",
+      "postalCode": "NW1 6XE",
+      "country": "GB"
+    }
+  }
+}

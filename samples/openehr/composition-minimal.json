@@ -1,0 +1,11 @@
+{
+  "archetypeNodeId": "openEHR-EHR-COMPOSITION.demographics.v1",
+  "ehrStatus": {
+    "subjectId": "9999-0002"
+  },
+  "demographics": {
+    "familyName": "Nilsson",
+    "givenName": "Anna",
+    "gender": "female"
+  }
+}

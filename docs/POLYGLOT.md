@@ -69,5 +69,16 @@ reference uses Firely; other ports parse the subset directly):
 
 ## Status
 
+All six ports are implemented with full parity (library + unit + BDD tests +
+HTTP API + Dockerfile + K8s manifests + path-filtered CI):
+
+| Language | Folder | API | Unit | BDD |
+| --- | --- | --- | --- | --- |
+| .NET (C#) | `dotnet/` | ASP.NET Core | xUnit | Reqnroll |
+| Node.js / TypeScript | `nodejs/` | Express | Jest | Cucumber |
+| Go | `go/` | net/http | `go test` | godog |
+| Java | `java/` | JDK HttpServer | JUnit 5 | Cucumber-JVM |
+| Rust | `rust/` | axum | `cargo test` | cucumber-rs |
+| Python | `python/` | stdlib http.server | pytest | behave |
+
 See the **Languages & packages** table in the [root README](../README.md).
-Ports are delivered incrementally — one pull request per language.

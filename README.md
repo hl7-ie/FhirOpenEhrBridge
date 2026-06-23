@@ -216,14 +216,14 @@ This is a **polyglot monorepo**: the same FHIR ⇄ openEHR translation engine is
 testable, publishable, and deployable. The shared cross-language conformance
 payloads live in [`samples/`](samples).
 
-| Language | Folder | Status |
-| --- | --- | --- |
-| .NET (C#) | [`dotnet/`](dotnet) | ✅ Reference implementation |
-| Node.js / TypeScript | [`nodejs/`](nodejs) | 🚧 In progress |
-| Go | [`go/`](go) | 🚧 In progress |
-| Java | [`java/`](java) | 🚧 In progress |
-| Rust | [`rust/`](rust) | 🚧 In progress |
-| Python | [`python/`](python) | 🚧 In progress |
+| Language | Folder | Tests | Status |
+| --- | --- | --- | --- |
+| .NET (C#) | [`dotnet/`](dotnet) | xUnit + Reqnroll + integration | ✅ Reference implementation |
+| Node.js / TypeScript | [`nodejs/`](nodejs) | Jest + Cucumber | ✅ |
+| Go | [`go/`](go) | `go test` + godog | ✅ |
+| Java | [`java/`](java) | JUnit 5 + Cucumber-JVM | ✅ |
+| Rust | [`rust/`](rust) | `cargo test` + cucumber-rs | ✅ |
+| Python | [`python/`](python) | pytest + behave | ✅ |
 
 Each port targets parity: core library + unit + BDD tests + HTTP API + container
 image + per-language CI pipeline.

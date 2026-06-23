@@ -1,0 +1,36 @@
+{
+  "name": "@hl7-ie/fhir-openehr-bridge",
+  "version": "0.1.0",
+  "description": "Bidirectional FHIR <-> openEHR translation engine (Node.js/TypeScript port)",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/hl7-ie/FhirOpenEhrBridge" },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": { "fhir-openehr-bridge": "dist/cli.js" },
+  "files": ["dist"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/main.js",
+    "dev": "ts-node src/main.ts",
+    "cli": "ts-node src/cli.ts",
+    "test": "jest --config jest.config.js",
+    "test:bdd": "cucumber-js",
+    "lint": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.9.0",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.14.0",
+    "@types/supertest": "^6.0.2",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}

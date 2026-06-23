@@ -85,9 +85,16 @@ Architecture diagrams (C4 model + sequences) live in [`docs/architecture`](docs/
 - [.NET SDK 8.0+](https://dotnet.microsoft.com/download)
 - (Optional) Docker, for the containerised API
 
-### Build & test
+> **Monorepo note:** the .NET reference implementation lives under
+> [`dotnet/`](dotnet). Other language ports live in sibling folders
+> (`nodejs/`, `go/`, `java/`, `rust/`, `python/`) — see
+> [Languages & packages](#languages--packages). The shared cross-language
+> conformance payloads live in [`samples/`](samples).
+
+### Build & test (.NET)
 
 ```bash
+cd dotnet
 dotnet restore
 dotnet build
 dotnet test          # runs xUnit unit tests + Reqnroll BDD scenarios
@@ -96,7 +103,7 @@ dotnet test          # runs xUnit unit tests + Reqnroll BDD scenarios
 ### Run the API
 
 ```bash
-dotnet run --project src/FhirOpenEhrBridge.Api
+dotnet run --project dotnet/src/FhirOpenEhrBridge.Api
 ```
 
 Swagger UI is served at `https://localhost:<port>/swagger` in Development.
@@ -106,7 +113,7 @@ Swagger UI is served at `https://localhost:<port>/swagger` in Development.
 Single container:
 
 ```bash
-docker build -t fhir-openehr-bridge -f src/FhirOpenEhrBridge.Api/Dockerfile .
+docker build -t fhir-openehr-bridge -f dotnet/src/FhirOpenEhrBridge.Api/Dockerfile dotnet
 docker run -p 8088:8080 fhir-openehr-bridge
 ```
 
@@ -163,7 +170,7 @@ The [`samples/`](samples) folder demonstrates the engine three ways:
 - **Console demo** — runs every sample payload through the engine in both
   directions (plus round-trip and rejection paths), no server required:
   ```bash
-  dotnet run --project samples/FhirOpenEhrBridge.Demo
+  dotnet run --project dotnet/samples/FhirOpenEhrBridge.Demo
   ```
 - **`samples/requests.http`** — ready-to-run requests for the VS Code REST Client / Rider against the live API.
 - **Sample payloads** — `samples/fhir/*.json` and `samples/openehr/*.json`, usable with `curl --data @<file>`.
@@ -192,25 +199,47 @@ base classes) and registering it in `AddBridgeApplication`.
 
 ## Testing strategy
 
-- **Unit tests** (`tests/FhirOpenEhrBridge.UnitTests`) — mapper logic, gender
+- **Unit tests** (`dotnet/tests/FhirOpenEhrBridge.UnitTests`) — mapper logic, gender
   mapping, round-tripping, and `TranslationService` dispatch (using Moq).
-- **BDD tests** (`tests/FhirOpenEhrBridge.BddTests`) — Gherkin features describing
+- **BDD tests** (`dotnet/tests/FhirOpenEhrBridge.BddTests`) — Gherkin features describing
   the translation behaviour end-to-end:
   - `Features/FhirToOpenEhrTranslation.feature`
   - `Features/OpenEhrToFhirTranslation.feature`
-- **Integration tests** (`tests/FhirOpenEhrBridge.IntegrationTests`) — boot the
+- **Integration tests** (`dotnet/tests/FhirOpenEhrBridge.IntegrationTests`) — boot the
   real ASP.NET Core pipeline in-memory with `WebApplicationFactory<Program>` and
   exercise the HTTP endpoints.
 
+## Languages & packages
+
+This is a **polyglot monorepo**: the same FHIR ⇄ openEHR translation engine is
+(being) implemented in several languages, each independently buildable,
+testable, publishable, and deployable. The shared cross-language conformance
+payloads live in [`samples/`](samples).
+
+| Language | Folder | Status |
+| --- | --- | --- |
+| .NET (C#) | [`dotnet/`](dotnet) | ✅ Reference implementation |
+| Node.js / TypeScript | [`nodejs/`](nodejs) | 🚧 In progress |
+| Go | [`go/`](go) | 🚧 In progress |
+| Java | [`java/`](java) | 🚧 In progress |
+| Rust | [`rust/`](rust) | 🚧 In progress |
+| Python | [`python/`](python) | 🚧 In progress |
+
+Each port targets parity: core library + unit + BDD tests + HTTP API + container
+image + per-language CI pipeline.
+
 ## CI/CD
 
-GitHub Actions workflows in [`.github/workflows`](.github/workflows):
+GitHub Actions workflows in [`.github/workflows`](.github/workflows). Pipelines
+are **per-language** and path-filtered, so a change under `go/` only runs the Go
+pipeline, etc.
 
-- **build-and-test.yml** — restore, build, test, and publish a code-coverage report on every push/PR to `main`.
-- **codeql.yml** — CodeQL security/quality analysis for C# on push/PR and weekly.
-- **publish-nuget.yml** — on a `v*.*.*` tag, pack `Domain` + `Application` and push to GitHub Packages (and NuGet.org if `NUGET_API_KEY` is set).
-- **docker-publish.yml** — build the API image and push it to GitHub Container Registry (`ghcr.io`).
+- **dotnet-build-and-test.yml** — restore, build, test, and publish a code-coverage report.
+- **dotnet-codeql.yml** — CodeQL security/quality analysis for C#.
+- **dotnet-publish-nuget.yml** — on a `v*.*.*` tag, pack `Domain` + `Application` and push to GitHub Packages (and NuGet.org if `NUGET_API_KEY` is set).
+- **dotnet-docker-publish.yml** — build the API image and push it to GitHub Container Registry (`ghcr.io`).
 - **cd-gitops.yml** — on a release tag, bump the production Kustomize overlay's image tag and commit it back to `main` for Argo CD to reconcile.
+- Per-language `…-ci.yml` pipelines are added alongside each language port.
 
 ## Deployment
 

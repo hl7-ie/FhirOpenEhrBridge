@@ -15,8 +15,8 @@
 
   <!-- Ship the sample payloads alongside the demo executable so it is self-contained. -->
   <ItemGroup>
-    <Content Include="..\fhir\*.json" Link="samples\fhir\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="..\openehr\*.json" Link="samples\openehr\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\..\samples\fhir\*.json" Link="samples\fhir\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\..\samples\openehr\*.json" Link="samples\openehr\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

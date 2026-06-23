@@ -1,10 +1,18 @@
-name: Build and Test
+name: .NET - Build and Test
 
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'dotnet/**'
+      - 'samples/**'
+      - '.github/workflows/dotnet-build-and-test.yml'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'dotnet/**'
+      - 'samples/**'
+      - '.github/workflows/dotnet-build-and-test.yml'
   workflow_dispatch:
 
 permissions:
@@ -15,6 +23,10 @@ env:
   DOTNET_NOLOGO: 'true'
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 'true'
   DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+
+defaults:
+  run:
+    working-directory: dotnet
 
 jobs:
   build-and-test:
@@ -63,6 +75,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-and-coverage
-          path: ./TestResults
+          name: dotnet-test-and-coverage
+          path: dotnet/TestResults
           retention-days: 14

@@ -1,8 +1,11 @@
-name: Publish Docker Image
+name: .NET - Publish Docker Image
 
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'dotnet/**'
+      - '.github/workflows/dotnet-docker-publish.yml'
     tags:
       - 'v*.*.*'
   workflow_dispatch:
@@ -49,8 +52,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: .
-          file: ./src/FhirOpenEhrBridge.Api/Dockerfile
+          context: ./dotnet
+          file: ./dotnet/src/FhirOpenEhrBridge.Api/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

@@ -63,7 +63,7 @@ an IPS-aligned `Patient` for outbound exchange.
 
 ```bash
 # All samples (including the Irish ones) through the engine, both directions:
-dotnet run --project samples/FhirOpenEhrBridge.Demo
+dotnet run --project dotnet/samples/FhirOpenEhrBridge.Demo
 
 # Against the live API:
 curl -X POST http://localhost:5199/api/translate/fhir-to-openehr \

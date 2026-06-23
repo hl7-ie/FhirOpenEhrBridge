@@ -230,16 +230,32 @@ image + per-language CI pipeline.
 
 ## CI/CD
 
-GitHub Actions workflows in [`.github/workflows`](.github/workflows). Pipelines
-are **per-language** and path-filtered, so a change under `go/` only runs the Go
-pipeline, etc.
+GitHub Actions workflows in [`.github/workflows`](.github/workflows).
 
-- **dotnet-build-and-test.yml** — restore, build, test, and publish a code-coverage report.
-- **dotnet-codeql.yml** — CodeQL security/quality analysis for C#.
-- **dotnet-publish-nuget.yml** — on a `v*.*.*` tag, pack `Domain` + `Application` and push to GitHub Packages (and NuGet.org if `NUGET_API_KEY` is set).
-- **dotnet-docker-publish.yml** — build the API image and push it to GitHub Container Registry (`ghcr.io`).
-- **cd-gitops.yml** — on a release tag, bump the production Kustomize overlay's image tag and commit it back to `main` for Argo CD to reconcile.
-- Per-language `…-ci.yml` pipelines are added alongside each language port.
+**Trigger model — each pipeline runs only when its own folder changes.** Every
+per-language pipeline is `paths`-filtered on `<lang>/**` (plus its own workflow
+file), for both `push` to `main` and `pull_request`. So a change under `go/`
+runs **only** the Go pipeline; a docs-only change runs none of them. Release
+tagging is kept separate from path-filtered CI (combining `paths:` and `tags:`
+in one trigger silently skips tag builds), so version tags are handled by
+dedicated tag-triggered workflows.
+
+Per-language CI (path-filtered — build, test, BDD, and on `main` publish the
+rolling `latest`/sha image):
+
+- **dotnet-build-and-test.yml** · **dotnet-codeql.yml** · **dotnet-docker-publish.yml** (`dotnet/**`)
+- **nodejs-ci.yml** (`nodejs/**`) · **go-ci.yml** (`go/**`) · **java-ci.yml** (`java/**`) · **rust-ci.yml** (`rust/**`) · **python-ci.yml** (`python/**`)
+
+Release / tag-triggered (not path-filtered — always run on `v*.*.*`):
+
+- **release-images.yml** — builds & pushes a **semver-tagged** image for *all six* languages to `ghcr.io`.
+- **dotnet-publish-nuget.yml** — packs `Domain` + `Application` and pushes to GitHub Packages (and NuGet.org if `NUGET_API_KEY` is set).
+- **cd-gitops.yml** — bumps the production Kustomize overlay's image tag and commits it back to `main` for Argo CD to reconcile.
+
+> **Branch-protection note:** if you mark a per-language pipeline as a *required*
+> check, use GitHub's "require checks only if they run" behaviour — a
+> path-filtered workflow that is skipped reports no status, which can otherwise
+> block unrelated PRs.
 
 ## Deployment
 

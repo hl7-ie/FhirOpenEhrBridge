@@ -6,8 +6,6 @@ on:
     paths:
       - 'rust/**'
       - '.github/workflows/rust-ci.yml'
-    tags:
-      - 'v*.*.*'
   pull_request:
     branches: [ main ]
     paths:

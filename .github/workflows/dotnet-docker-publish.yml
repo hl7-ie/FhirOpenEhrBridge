@@ -6,8 +6,6 @@ on:
     paths:
       - 'dotnet/**'
       - '.github/workflows/dotnet-docker-publish.yml'
-    tags:
-      - 'v*.*.*'
   workflow_dispatch:
 
 permissions:

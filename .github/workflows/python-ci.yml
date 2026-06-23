@@ -6,8 +6,6 @@ on:
     paths:
       - 'python/**'
       - '.github/workflows/python-ci.yml'
-    tags:
-      - 'v*.*.*'
   pull_request:
     branches: [ main ]
     paths:

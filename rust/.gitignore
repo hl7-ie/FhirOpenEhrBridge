@@ -1,1 +1,6 @@
 /target
+
+# The repository-root .gitignore (oriented at .NET) excludes any `bin/` directory
+# via `[Bb]in/`. That also matches Rust's source binaries directory, so re-include it.
+!src/bin/
+!src/bin/*.rs

@@ -1,0 +1,34 @@
+[package]
+name = "fhir-openehr-bridge"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Bidirectional FHIR <-> openEHR translation engine (Rust port)"
+repository = "https://github.com/hl7-ie/FhirOpenEhrBridge"
+
+[lib]
+name = "fhir_openehr_bridge"
+path = "src/lib.rs"
+
+[[bin]]
+name = "api"
+path = "src/bin/api.rs"
+
+[[bin]]
+name = "cli"
+path = "src/bin/cli.rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+axum = "0.7"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net"] }
+uuid = { version = "1", features = ["v4"] }
+
+[dev-dependencies]
+cucumber = "0.21"
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+
+[[test]]
+name = "bdd"
+harness = false

@@ -39,7 +39,7 @@ Composes the Application layer in-process and runs every sample through the
 engine in both directions, plus a round-trip and the rejection paths:
 
 ```bash
-dotnet run --project samples/FhirOpenEhrBridge.Demo
+dotnet run --project dotnet/samples/FhirOpenEhrBridge.Demo
 ```
 
 Expected highlights:
@@ -56,7 +56,7 @@ Expected highlights:
 Start the API, then fire the requests from your editor's HTTP client:
 
 ```bash
-dotnet run --project src/FhirOpenEhrBridge.Api
+dotnet run --project dotnet/src/FhirOpenEhrBridge.Api
 # default URL is http://localhost:5199 (matches @host in requests.http)
 ```
 

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>FhirOpenEhrBridge.Demo</RootNamespace>
+    <AssemblyName>FhirOpenEhrBridge.Demo</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\FhirOpenEhrBridge.Application\FhirOpenEhrBridge.Application.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+  </ItemGroup>
+
+  <!-- Ship the sample payloads alongside the demo executable so it is self-contained. -->
+  <ItemGroup>
+    <Content Include="..\..\..\samples\fhir\*.json" Link="samples\fhir\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\..\samples\openehr\*.json" Link="samples\openehr\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

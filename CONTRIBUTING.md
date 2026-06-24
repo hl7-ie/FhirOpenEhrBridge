@@ -11,7 +11,7 @@ Be respectful and constructive. Assume good intent.
 
 ```bash
 git clone git@github.com:hl7-ie/FhirOpenEhrBridge.git
-cd FhirOpenEhrBridge
+cd FhirOpenEhrBridge/dotnet      # the .NET reference implementation
 dotnet restore
 dotnet build
 dotnet test
@@ -19,6 +19,11 @@ dotnet test
 
 Requires the **.NET SDK 8.0+**. Docker is optional but recommended for running
 the full local stack (see [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)).
+
+> This is a polyglot monorepo — the .NET code lives under [`dotnet/`](dotnet),
+> with other language ports in sibling folders (`nodejs/`, `go/`, `java/`,
+> `rust/`, `python/`). Cross-language conformance payloads live in
+> [`samples/`](samples).
 
 ## Architecture rules (Clean Architecture)
 
@@ -46,9 +51,9 @@ live in `Infrastructure`.
 
 | Suite | Project | Framework |
 | --- | --- | --- |
-| Unit | `tests/FhirOpenEhrBridge.UnitTests` | xUnit + Moq |
-| BDD | `tests/FhirOpenEhrBridge.BddTests` | Reqnroll (Gherkin) |
-| Integration | `tests/FhirOpenEhrBridge.IntegrationTests` | xUnit + `WebApplicationFactory` |
+| Unit | `dotnet/tests/FhirOpenEhrBridge.UnitTests` | xUnit + Moq |
+| BDD | `dotnet/tests/FhirOpenEhrBridge.BddTests` | Reqnroll (Gherkin) |
+| Integration | `dotnet/tests/FhirOpenEhrBridge.IntegrationTests` | xUnit + `WebApplicationFactory` |
 
 Run everything with `dotnet test`. All suites must pass before a PR is merged;
 CI enforces this.

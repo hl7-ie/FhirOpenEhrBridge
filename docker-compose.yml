@@ -14,7 +14,7 @@
 services:
   bridge-api:
     build:
-      context: .
+      context: ./dotnet
       dockerfile: src/FhirOpenEhrBridge.Api/Dockerfile
     image: fhir-openehr-bridge:local
     container_name: bridge-api

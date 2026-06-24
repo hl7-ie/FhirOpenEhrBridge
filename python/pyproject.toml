@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fhir-openehr-bridge"
+version = "0.1.0"
+description = "Bidirectional FHIR <-> openEHR translation engine (Python port)"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/hl7-ie/FhirOpenEhrBridge"
+
+[project.scripts]
+fhir-openehr-bridge = "fhir_openehr_bridge.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "behave>=1.2.6"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

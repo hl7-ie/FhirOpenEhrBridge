@@ -38,7 +38,7 @@ docker compose down -v
 ## 2. Container image
 
 The API image is built from
-[`src/FhirOpenEhrBridge.Api/Dockerfile`](../src/FhirOpenEhrBridge.Api/Dockerfile)
+[`dotnet/src/FhirOpenEhrBridge.Api/Dockerfile`](../dotnet/src/FhirOpenEhrBridge.Api/Dockerfile)
 (multi-stage, runs as non-root on port 8080) and published to GitHub Container
 Registry by the `docker-publish` workflow:
 
@@ -49,7 +49,7 @@ ghcr.io/hl7-ie/fhiropenehrbridge:<tag>
 Build locally:
 
 ```bash
-docker build -t fhir-openehr-bridge:local -f src/FhirOpenEhrBridge.Api/Dockerfile .
+docker build -t fhir-openehr-bridge:local -f dotnet/src/FhirOpenEhrBridge.Api/Dockerfile dotnet
 docker run -p 8088:8080 fhir-openehr-bridge:local
 ```
 

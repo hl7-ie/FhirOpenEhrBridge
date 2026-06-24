@@ -3,7 +3,7 @@
 A robust, fully tested, **bidirectional** mapping and translation engine between
 HL7 **FHIR** (R4/R5) payloads and **openEHR** (RM/AQL) payloads.
 
-[![Build and Test](https://github.com/hl7-ie/FhirOpenEhrBridge/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/hl7-ie/FhirOpenEhrBridge/actions/workflows/build-and-test.yml)
+[![Build and Test](https://github.com/hl7-ie/FhirOpenEhrBridge/actions/workflows/dotnet-build-and-test.yml/badge.svg)](https://github.com/hl7-ie/FhirOpenEhrBridge/actions/workflows/dotnet-build-and-test.yml)
 [![Code License: MIT](https://img.shields.io/badge/Code-MIT-blue.svg)](LICENSE-MIT.txt)
 [![Docs License: CC BY 4.0](https://img.shields.io/badge/Docs-CC%20BY%204.0-lightgrey.svg)](LICENSE-CC-BY.txt)
 
